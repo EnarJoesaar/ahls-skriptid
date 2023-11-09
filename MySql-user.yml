@@ -1,0 +1,35 @@
+---
+- hosts: webservers
+  become: yes
+  become_user: root
+  tasks:
+  - name: Loome allalaadimiseks kataloog
+    file:
+      path=/root/allalaadmised
+      owner=root
+      group=root
+      mode=0755
+      state=directory
+
+  - name: Allalaadime mysql_5.7 repositooriumi pakett apt-i lisamiseks
+    get_url:
+      url: http://repo.mysql.com/mysql-apt-config_0.8.6-1_all.deb
+      dest: "/root/allalaadmised"
+      mode: 0440
+
+  - name: installeerime mysql_5.7
+    apt: name=mysql-server
+
+  - name: installeerime python-mysqldb
+    apt: name=python-mysqldb
+
+  - name: Loome root login faili
+    copy:
+      dest: /root/.my.cnf
+      owner: root
+      group: root
+      mode: 0600
+      content: |
+          [client]
+          user=root
+          password=qwerty

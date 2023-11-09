@@ -1,0 +1,14 @@
+
+
+---
+- hosts: webservers
+  become: true
+  become_user: root
+  tasks:
+    - name: installeerime php7.3
+      apt: name=php7.3 update_cache=yes state=latest
+    - name: installeerime libapache-mod-php7.3
+      apt: name=libapache2-mod-php7.3 update_cache=yes state=latest
+    - name: installeerime php7.3-mysql
+      apt: name=php7.3-mysql update_cache=yes state=latest
+
